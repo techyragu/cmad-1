@@ -1,0 +1,38 @@
+pipeline {
+   agent any
+
+   tools {
+    maven 'Maven 3.6.1'
+   }
+
+   stages {
+      stage('build') {
+         steps {
+            echo 'compiling user service'
+            dir('java/cmad-ms-users'){
+             sh 'mvn compile'
+            }
+            # sh 'mvn -f java/cmad-ms-users/pom.xml compile'
+         }
+      }
+
+      stage('test') {
+         steps {
+            echo 'testing user service'
+            dir('java/cmad-ms-users'){
+             sh 'mvn clean test'
+            }
+         }
+      }
+
+      stage('package') {
+         steps {
+            echo 'packaging users app'
+            dir('java/cmad-ms-users'){
+             sh 'mvn package -DskipTests'
+            }
+         }
+      }
+
+   }
+}
