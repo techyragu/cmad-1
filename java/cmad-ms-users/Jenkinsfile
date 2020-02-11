@@ -7,6 +7,7 @@ pipeline {
 
    stages {
       stage('build') {
+        when { changeset "java/cmad-ms-users/*"}
          steps {
             echo 'compiling user service'
             dir('java/cmad-ms-users'){
