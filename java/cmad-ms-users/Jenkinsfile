@@ -12,7 +12,6 @@ pipeline {
             dir('java/cmad-ms-users'){
              sh 'mvn compile'
             }
-            # sh 'mvn -f java/cmad-ms-users/pom.xml compile'
          }
       }
 
