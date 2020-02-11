@@ -16,6 +16,7 @@ pipeline {
       }
 
       stage('test') {
+        when { changeset "java/cmad-ms-users/*"}
          steps {
             echo 'testing user service'
             dir('java/cmad-ms-users'){
