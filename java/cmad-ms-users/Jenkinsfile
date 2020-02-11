@@ -1,0 +1,43 @@
+pipeline {
+   agent any
+
+   tools {
+    maven 'maven 3.6.1'
+   }
+
+   stages {
+      stage('build') {
+        when { changeset "java/cmad-ms-users/*"}
+         steps {
+            echo 'compiling user service'
+            dir('java/cmad-ms-users'){
+             sh 'mvn compile'
+            }
+         }
+      }
+
+      stage('test') {
+        when { changeset "java/cmad-ms-users/*"}
+         steps {
+            echo 'testing user service'
+            dir('java/cmad-ms-users'){
+             sh 'mvn clean test'
+            }
+         }
+      }
+
+      stage('package') {
+         when {
+                branch 'production'
+            }
+         steps {
+            echo 'packaging users app'
+            dir('java/cmad-ms-users'){
+             sh 'mvn package -DskipTests'
+             archiveArtifacts 'java/cmad-ms-users/target/*.jar'
+            }
+         }
+      }
+
+   }
+}
